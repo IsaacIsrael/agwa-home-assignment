@@ -116,6 +116,8 @@ const Cart = (props) => {
 		}
 	};
 
+
+	
 	useEffect(() => {
 		const unsubscribe = NetInfo.addEventListener((state) => {
 			const online = !!state.isConnected;

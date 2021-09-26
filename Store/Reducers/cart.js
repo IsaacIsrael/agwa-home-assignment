@@ -11,6 +11,9 @@ const initialState = {
     }
 }
 
+
+// TODO: I Believe that maybe we should break down into more  actions here.
+//  Instead of having switch inside switch
 const cartReducer = (state = initialState, action) => {
     switch (action.type) {
 

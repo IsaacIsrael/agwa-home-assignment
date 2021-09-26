@@ -16,6 +16,7 @@ const VeggieDesc = (props) => {
 	const user = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 
+	
 	const saveCurrFarmCart = (dispatch, getState) => {
 		dispatch(
 			add_to_cart({
@@ -24,6 +25,10 @@ const VeggieDesc = (props) => {
 				cart: route.params.cart,
 			})
 		);
+		
+		//TODO: I think the code is not so clear. Appear that we mix the 
+		// responsibility here. Maybe is a good idea to desegregate the 
+		// responsibility. I suggest creating to apply that at the action itself
 		const farm =
 			farmType === "farmA" ? getState().cart.farmA : getState().cart.farmB;
 
@@ -41,6 +46,7 @@ const VeggieDesc = (props) => {
 		});
 	};
 
+	{/* TODO: Try to move this logic to  Store Navigator with a component.(DRY)*/}
 	useEffect(() => {
 		navigation.setOptions({
 			headerRight: () => (
@@ -72,27 +78,32 @@ const VeggieDesc = (props) => {
 							/>
 							<Text style={styles.titleText}>{veggieInfo.name}</Text>
 						</View>
+						{/* //TODO: Create one component for this part (DRY).  */}
 						<View style={styles.detailsContainer}>
 							<Text style={styles.descText}>{veggieInfo.description}</Text>
 							<View style={styles.detailWrapper}>
 								<Text style={styles.detailTitle}>Life Cycle:</Text>
 								<Text style={styles.text}> {veggieInfo.lifeCycle}</Text>
 							</View>
+							{/* //TODO: Create one component for this part (DRY).  */}
 							<View style={styles.detailWrapper}>
 								<Text style={styles.detailTitle}>Yield:</Text>
 								<Text style={styles.text}> {veggieInfo.yield}</Text>
 							</View>
+							{/* //TODO: Create one component for this part (DRY).  */}
 							<View style={styles.detailWrapper}>
 								<Text style={styles.detailTitle}>Seed to crop:</Text>
 								<Text style={styles.text}> {veggieInfo.seedToCrop}</Text>
 							</View>
 						</View>
+						{/* //TODO: Create one component for this part (DRY).  */}
 						<View style={styles.detailsContainer}>
 							<Text style={styles.detailTitle}>Nutritional Facts: </Text>
 							<Text style={styles.text}>
 								{veggieInfo.nutritionFacts.portionInfo}
 							</Text>
 						</View>
+						{/* //TODO: Create one component for this part (DRY).  */}
 						<View style={styles.tableContainer}>
 							<View style={styles.tableRowTitleContainer}>
 								<Text style={styles.tableRowTitle}>Nutrients</Text>
@@ -112,6 +123,7 @@ const VeggieDesc = (props) => {
 							})}
 						</View>
 					</ScrollView>
+					{/* //TODO: Create one component for this part (DRY).  */}
 					<View style={styles.buttonContainer}>
 						<CustomButton
 							title='Add to Cart'

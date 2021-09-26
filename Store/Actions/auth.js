@@ -2,6 +2,7 @@ export const SIGN_UP = "SIGN_UP"
 export const LOG_IN = "LOG_IN"
 export const LOG_OUT = "LOG_OUT"
 
+// TODO: In JS we usually use camel case 
 export const sign_up = (data) => {
     return { type: SIGN_UP, userId: data.userId, firebaseUserId: data.firebaseUserId }
 }

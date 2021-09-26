@@ -45,6 +45,11 @@ const Farm = (props) => {
 		});
 	};
 
+
+		//TODO: I think the code is not so clear. Appear that we mix the 
+		// responsibility here. Maybe is a good idea to desegregate the 
+		// responsibility. I suggest creating a new object ( Class) 
+		// responsible to make the API calls (as a service pattern )
 	const loadPastOrders = async (dispatch, getState) => {
 		const farm =
 			farmType === "farmA" ? getState().cart.farmA : getState().cart.farmB;
@@ -58,6 +63,11 @@ const Farm = (props) => {
 			console.error(err);
 		}
 	};
+
+		//TODO: I think the code is not so clear. Appear that we mix the 
+		// responsibility here. Maybe is a good idea to desegregate the 
+		// responsibility. I suggest creating a new object ( Class) 
+		// responsible to make the API calls (as a service pattern )
 
 	const getPastOrdersData = (dispatch, getState) => {
 		// Display past orders from DB if online, else from local storage
@@ -79,12 +89,16 @@ const Farm = (props) => {
 		}
 	};
 
+
+	//TODO:  Break the useEffect into per functionality 
 	useEffect(() => {
+		{/* TODO: Try to move this logic to  AppNavigator*/}
 		const unsubscribe = NetInfo.addEventListener((state) => {
 			const online = !!state.isConnected;
 			isOnline.current = online;
 		});
 
+		{/* TODO: Try to move this logic to  Store Navigator with a component.(DRY)*/}
 		navigation.setOptions({
 			title: `Farm ${route.params.farm.slice(-1)}`,
 			headerRight: () => (

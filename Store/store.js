@@ -6,6 +6,7 @@ import reduxMiddelware from './reduxMiddelware'
 import categoriesReducer from './Reducers/categories';
 import authReducer from './Reducers/auth'
 
+
 const rootReducer = combineReducers({
     categories: categoriesReducer,
     cart: cartReducer,

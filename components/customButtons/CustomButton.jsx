@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../utils/styles";
 
+
+// TODO:  You should use destructuring
 const CustomButton = (props) => {
 	const onPressHandler = () => {
 		props.pressHandler();
@@ -10,12 +12,17 @@ const CustomButton = (props) => {
 
 	return (
 		<View>
+				{/* TODO: In the pass I had a problem with TouchableOpacity in Android.  
+							We should double check that everything is working  
+							*/}
 			<TouchableOpacity
 				style={[styles.container, props.customStyle]}
 				onPress={onPressHandler}
 				activeOpacity={0.3}
 			>
 				<View style={styles.contentContainer}>
+					{/* TODO:  Just change a little bit for the code for  `isImage && (...) ` */}
+					{/* TODO: Instead of using isImage I recommend to create a props Icon */}
 					{props.isImage ? (
 						<Ionicons name='leaf' size={35} style={styles.image} />
 					) : null}

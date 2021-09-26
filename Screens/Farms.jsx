@@ -15,6 +15,7 @@ import {
 } from "../utils/database";
 
 const Farms = (props) => {
+	// TODO:  You should use destructuring
 	const { navigation } = props;
 	const [isLoading, setIsLoading] = useState(true);
 	const categories = useSelector((state) => state.categories.allCategories);
@@ -36,6 +37,7 @@ const Farms = (props) => {
 		dispatch(log_out());
 	};
 
+	{/* TODO: Try to move this logic to  Store Navigator with a component.(DRY)*/}
 	useEffect(() => {
 		navigation.setOptions({
 			headerRight: () => (
@@ -51,6 +53,10 @@ const Farms = (props) => {
 	}, []);
 
 	useEffect(() => {
+		//TODO: I think the code is not so clear. Appear that we mix the 
+		// responsibility here. Maybe is a good idea to desegregate the 
+		// responsibility. I suggest creating a new object ( Class) 
+		// responsible to make the API calls (as a service pattern )
 		//Gets the categories from plant DB
 		const getCategories = async () => {
 			try {
@@ -68,9 +74,15 @@ const Farms = (props) => {
 		//Gets all the plant info of the categories
 		const getPlantData = async () => {
 			try {
+			//TODO: I think the code is not so clear. Appear that we mix the 
+			// responsibility here. Maybe is a good idea to desegregate the 
+			// responsibility. I suggest creating a new object ( Class) 
+			// responsible to make the API calls (as a service pattern )
 				const allPlantData = await axios.get(`${REACT_APP_AGWA_PLANTS}`);
 				let dataToStore = {};
 
+				//TODO: We should revisit the API endpoint. This look to much and could be
+				// avoid at the API side.  Three loop one inside is not a good practices . 
 				for (let i = 0; i < categories.length; i++) {
 					let plantsArray = categories[i].plants;
 					for (let j = 0; j < plantsArray.length; j++) {
@@ -88,6 +100,8 @@ const Farms = (props) => {
 				console.error(err);
 			}
 		};
+
+		// TODO: Validate before
 
 		if (categories) {
 			getPlantData();
@@ -108,6 +122,7 @@ const Farms = (props) => {
 						<Text style={styles.text}>Select your farm:</Text>
 					</View>
 					<View style={styles.buttonsContainer}>
+						{/* //TODO: Create one component for this part (DRY).  */}
 						<View style={styles.buttonContainer}>
 							<CustomButton
 								title='Farm A'
@@ -115,6 +130,7 @@ const Farms = (props) => {
 								isImage={true}
 							/>
 						</View>
+						{/* //TODO: Create one component for this part (DRY).  */}
 						<View style={styles.buttonContainer}>
 							<CustomButton
 								title='Farm B'

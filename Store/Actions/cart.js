@@ -5,7 +5,7 @@ export const DEC_CART_ORDER = "DEC_CART_ORDER"
 export const RESTORE_CART_ORDER = "RESTORE_CART_ORDER"
 export const RESTORE_PAST_ORDER = "RESTORE_PAST_ORDER"
 
-
+// TODO: In JS we usually use camel case 
 export const add_to_cart = (data) => {
     return { type: ADD_TO_CART, newItemId: data.id, newItemName: data.name, cart: data.cart }
 }

@@ -16,6 +16,12 @@ export const flatListItemParser = (dataStructure) => {
 
 }
 
+
+//TODO: I think the code is not so clear. Appear that we mix the 
+// responsibility to make the call. I think we should create one Object and 
+// separate them into responsibility.  Like Email with all email validation there ,
+//  other as DataStorage with all features regarding it 
+			
 export const isValidEmail = (email) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     return reg.test(email);

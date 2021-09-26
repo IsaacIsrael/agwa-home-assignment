@@ -32,7 +32,12 @@ const SignUp = (props) => {
 
 	const signUpHandler = () => {
 		Keyboard.dismiss();
-		// Validation
+		// Validationa
+		// TODO:  I think that is best to validate the values before to click the button. 
+		// And make the button enable only after the fields are validate . What do you think? 
+
+		// TODO: Very complex code here.  I suggest to create a function to validate all information 
+		// and return a boolean 
 		if (!password || !confirmPassword || !email) {
 			setErrorMessage("Please fill all fields");
 		} else if (password != confirmPassword) {
@@ -48,8 +53,13 @@ const SignUp = (props) => {
 	};
 
 	const signUpToStore = async (dispatch, getState) => {
+			//TODO: I think the code is not so clear. Appear that we mix the 
+			// responsibility here. Maybe is a good idea to desegregate the 
+			// responsibility. I suggest creating a new object ( Class) 
+			// responsible to make the API calls (as a service pattern )
 		// Send registration data to firebase authentication
 		try {
+			//TODO: Use Axios library 
 			const response = await fetch(
 				"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDLTrlLmj_dFKOPI74doQ2rzuWimkIwLcA",
 				{
@@ -78,6 +88,7 @@ const SignUp = (props) => {
 		}
 	};
 
+	{/* TODO: Try to move this logic to  AppNavigator*/}
 	useEffect(() => {
 		// Check the network connection
 		const removeNetInfoSubscription = NetInfo.addEventListener((state) => {
@@ -91,7 +102,9 @@ const SignUp = (props) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
+			{/* TODO: Try to move this logic to  AppNavigator*/}
 			{isOffline ? (
+				//TODO: Create one component for this part (DRY). 
 				<View style={styles.notFoundContainer}>
 					<Ionicons
 						name='leaf'
@@ -112,6 +125,7 @@ const SignUp = (props) => {
 						<Ionicons name='leaf' size={70} style={styles.image} />
 					</View>
 					<View style={styles.textContainers}>
+							{/* TODO: Create one component for the input */}
 						<View style={styles.inpuContainer}>
 							<Text style={styles.text}>Email</Text>
 							<TextInput
@@ -120,6 +134,7 @@ const SignUp = (props) => {
 								defaultValue={email}
 							></TextInput>
 						</View>
+							{/* TODO: Create one component for the input */}
 						<View style={styles.inpuContainer}>
 							<Text style={styles.text}>Password</Text>
 							<TextInput
@@ -129,6 +144,7 @@ const SignUp = (props) => {
 								secureTextEntry={true}
 							></TextInput>
 						</View>
+							{/* TODO: Create one component for the input */}
 						<View style={styles.inpuContainer}>
 							<Text style={styles.text}>Confirm Password</Text>
 							<TextInput

@@ -14,6 +14,7 @@ const Store = (props) => {
 
 	return (
 		<View style={styles.container}>
+			{/* //TODO: Component not necessary .  */}
 			<CategoryList showVeggieDesc={showVeggieDesc} />
 		</View>
 	);

@@ -17,11 +17,14 @@ import {
 } from "react-native";
 
 const LogIn = (props) => {
+	// TODO:  You should use destructuring
 	const { navigation } = props;
+
 	const [isOffline, setOfflineStatus] = useState(false);
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
 	const [errorMessage, setErrorMessage] = useState("");
+
 	const dispatch = useDispatch();
 
 	const navigateToSignUpHandler = () => {
@@ -36,9 +39,12 @@ const LogIn = (props) => {
 		setPassword(text);
 	};
 
+
 	const logInHandler = async () => {
 		Keyboard.dismiss();
 		// Validation
+		// TODO:  I think that is best to validate the values before to click the button. 
+		// And make the button enable only after the fields are validate . What do you think? 
 		if (!password || !email) {
 			setErrorMessage("Please fill all fields");
 			return;
@@ -47,6 +53,13 @@ const LogIn = (props) => {
 			return;
 		}
 
+			//TODO: I think the code is not so clear. Appear that we mix the 
+			// responsibility here. Maybe is a good idea to desegregate the 
+			// responsibility. I suggest creating a new object ( Class) 
+			// responsible to make the API calls (as a service pattern )
+
+			//TODO: Use Axios library 
+			//TODO: I think you forgot the try catch here 
 		const response = await fetch(
 			"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDLTrlLmj_dFKOPI74doQ2rzuWimkIwLcA",
 			{
@@ -72,6 +85,8 @@ const LogIn = (props) => {
 		}
 	};
 
+
+	{/* TODO: Try to move this logic to  AppNavigator*/}
 	useEffect(() => {
 		// Check the network connection
 		const removeNetInfoSubscription = NetInfo.addEventListener((state) => {
@@ -83,12 +98,15 @@ const LogIn = (props) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
+			{/* TODO: Try to move this logic to  AppNavigator*/}
 			{isOffline ? (
+				//TODO: Create one component for this part (DRY). 
 				<View style={styles.notFoundContainer}>
 					<Ionicons
 						name='leaf'
 						size={80}
 						style={styles.image}
+						//Good practice
 						color={Colors.primary}
 					/>
 					<View style={styles.notFoundTextContainer}>
@@ -104,6 +122,7 @@ const LogIn = (props) => {
 						<Ionicons name='leaf' size={70} style={styles.image} />
 					</View>
 					<View style={styles.textContainers}>
+						{/* TODO: Create one component for the input */}
 						<View style={styles.inpuContainer}>
 							<Text style={styles.text}>Email</Text>
 							<TextInput
@@ -112,6 +131,7 @@ const LogIn = (props) => {
 								defaultValue={email}
 							></TextInput>
 						</View>
+						{/* TODO: Create one component for the input */}
 						<View style={styles.inpuContainer}>
 							<Text style={styles.text}>Password</Text>
 							<TextInput
@@ -125,6 +145,9 @@ const LogIn = (props) => {
 							) : null}
 						</View>
 					</View>
+					{/* TODO: In the pass I had a problem with TouchableOpacity in Android.  
+							We should double check that everything is working  
+							*/}
 					<TouchableOpacity
 						style={styles.signUpContainer}
 						onPress={navigateToSignUpHandler}
