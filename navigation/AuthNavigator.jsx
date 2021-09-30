@@ -10,12 +10,15 @@ const AuthNavigator = () => {
 			<AuthScreenStack.Screen
 				name='logIn'
 				component={LogIn}
-				options={{ title: "" }}
+				header={null}
+				options={{ title: "" , headerShown: false }}
+
 			/>
 			<AuthScreenStack.Screen
 				name='signUp'
 				component={SignUp}
-				options={{ title: "" }}
+				header={null}
+				options={{ title: "", headerShown: false }}
 			/>
 		</AuthScreenStack.Navigator>
 	);
