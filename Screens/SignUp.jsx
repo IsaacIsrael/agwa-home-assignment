@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Colors from "../utils/styles";
-import NetInfo from "@react-native-community/netinfo";
 import CustomButton from "../components/customButtons/CustomButton";
 import { useDispatch } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,238 +7,103 @@ import { isValidEmail } from "../utils/helper";
 import { sign_up } from "../Store/Actions/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, View, TextInput, Text, Keyboard } from "react-native";
+import Container from "../components/Container";
+import { StatusBar } from "expo-status-bar";
+import Input from "../components/inputs/Input";
+import Sizes from "../utils/sizes";
+import StickBottomContainer from "../components/StickBottomContainer";
+import ErrorText from "../components/texts/ErrorText";
+import Button from "../components/buttons/Button";
+import authService from "../services/auth.services";
+import withInternetVerification from "../hoc/withInternetVerification";
 
-const SignUp = (props) => {
-	const { navigation } = props;
+const SignUp = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState();
-	const [isOffline, setOfflineStatus] = useState(false);
 	const dispatch = useDispatch();
 
-	const changeEmailHandler = (text) => {
-		setEmail(text);
-	};
-
-	const changePasswordHandler = (text) => {
-		setPassword(text);
-	};
-
-	const changeConfirmPasswordHandler = (text) => {
-		setConfirmPassword(text);
-	};
-
-	const signUpHandler = () => {
+	const signUpHandler = async () => {
 		Keyboard.dismiss();
-		// Validationa
-		// TODO:  I think that is best to validate the values before to click the button. 
-		// And make the button enable only after the fields are validate . What do you think? 
-
-		// TODO: Very complex code here.  I suggest to create a function to validate all information 
-		// and return a boolean 
+		
+		// TODO:  Move this logic for action
 		if (!password || !confirmPassword || !email) {
 			setErrorMessage("Please fill all fields");
-		} else if (password != confirmPassword) {
+			return;
+		}  
+		if (password != confirmPassword) {
 			setErrorMessage("Passwords do not match");
-		} else if (password && password.length < 6) {
+			return;
+		} 
+		if (password && password.length < 6) {
 			setErrorMessage("Password must be at least 6 characters");
-		} else if (!isValidEmail(email)) {
+			return;
+		} 
+		if (!isValidEmail(email)) {
 			setErrorMessage("Please enter a valid email");
-		} else if (password && confirmPassword && email) {
-			setErrorMessage("");
-			dispatch(signUpToStore);
-		}
+			return;
+		} 
+
+		const data = await authService.signUp({ email, password});
+		const { error , email: userId , localId :  userToken} =  data ;
+		
+		if (error && error.message === "EMAIL_EXISTS") {
+			setErrorMessage("Email already exists");
+			return;
+		} 
+		
+		dispatch( sign_up({ userId, userToken }));
 	};
 
-	const signUpToStore = async (dispatch, getState) => {
-			//TODO: I think the code is not so clear. Appear that we mix the 
-			// responsibility here. Maybe is a good idea to desegregate the 
-			// responsibility. I suggest creating a new object ( Class) 
-			// responsible to make the API calls (as a service pattern )
-		// Send registration data to firebase authentication
-		try {
-			//TODO: Use Axios library 
-			const response = await fetch(
-				"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDLTrlLmj_dFKOPI74doQ2rzuWimkIwLcA",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						email: email,
-						password: password,
-						returnSecureToken: true,
-					}),
-				}
-			);
-			const resData = response.json();
-			if (resData.error?.message === "EMAIL_EXISTS") {
-				setErrorMessage("Email already exists");
-			} else {
-				dispatch(
-					sign_up({ userId: resData.email, userToken: resData.localId })
-				);
-				navigation.navigate("logIn");
-			}
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
-	{/* TODO: Try to move this logic to  AppNavigator*/}
-	useEffect(() => {
-		// Check the network connection
-		const removeNetInfoSubscription = NetInfo.addEventListener((state) => {
-			const offline = !(state.isConnected && state.isInternetReachable);
-			setOfflineStatus(offline);
-		});
-		return () => {
-			removeNetInfoSubscription();
-		};
-	}, []);
 
 	return (
-		<SafeAreaView style={styles.container}>
-			{/* TODO: Try to move this logic to  AppNavigator*/}
-			{isOffline ? (
-				//TODO: Create one component for this part (DRY). 
-				<View style={styles.notFoundContainer}>
-					<Ionicons
-						name='leaf'
-						size={80}
-						style={styles.image}
-						color={Colors.primary}
-					/>
-					<View style={styles.notFoundTextContainer}>
-						<Text style={styles.notFoundText}>
-							Internet connection was not found.
-						</Text>
-						<Text style={styles.notFoundText}>Please turn it on :)</Text>
-					</View>
-				</View>
-			) : (
-				<>
-					<View style={styles.imageContainer}>
-						<Ionicons name='leaf' size={70} style={styles.image} />
-					</View>
-					<View style={styles.textContainers}>
-							{/* TODO: Create one component for the input */}
-						<View style={styles.inpuContainer}>
-							<Text style={styles.text}>Email</Text>
-							<TextInput
-								style={styles.input}
-								onChangeText={changeEmailHandler}
-								defaultValue={email}
-							></TextInput>
-						</View>
-							{/* TODO: Create one component for the input */}
-						<View style={styles.inpuContainer}>
-							<Text style={styles.text}>Password</Text>
-							<TextInput
-								style={styles.input}
-								onChangeText={changePasswordHandler}
-								defaultValue={password}
-								secureTextEntry={true}
-							></TextInput>
-						</View>
-							{/* TODO: Create one component for the input */}
-						<View style={styles.inpuContainer}>
-							<Text style={styles.text}>Confirm Password</Text>
-							<TextInput
-								style={styles.input}
-								onChangeText={changeConfirmPasswordHandler}
-								defaultValue={confirmPassword}
-								secureTextEntry={true}
-							></TextInput>
-						</View>
-						{errorMessage ? (
-							<Text style={styles.validateFieldsText}>{errorMessage}</Text>
-						) : null}
-					</View>
-					<View style={styles.buttonContainer}>
-						<CustomButton
-							title='Sign Up'
-							pressHandler={signUpHandler}
-							customStyle={{ width: "150%" }}
-						/>
-					</View>
-				</>
-			)}
-		</SafeAreaView>
+		<Container>
+			<Ionicons name='leaf' size={70} style={styles.icon} />
+			<Input 
+				label= 'Email'
+				value={email}
+				onValueChange={setEmail}
+				containerStyle={styles.inputContainer} 
+			/>
+			<Input 
+				label= 'Password'
+				value={password}
+				onValueChange={setPassword}
+				containerStyle={styles.inputContainer} 
+				secureTextEntry={true} 
+			/>
+			<Input 
+				label= 'Confirm Password'
+				value={confirmPassword}
+				onValueChange={setConfirmPassword}
+				secureTextEntry={true} 
+			/>
+			{!!errorMessage && ( <ErrorText style={styles.errorText} >{errorMessage}</ErrorText> )}
+			
+			<StickBottomContainer>
+				<Button
+					title='Sign In'
+					onClick={signUpHandler}
+					style={styles.button}
+				/>
+			</StickBottomContainer>
+		</Container>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		width: "100%",
-		backgroundColor: "white",
-	},
-	imageContainer: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		width: "100%",
-	},
-	image: {
+	icon: {
 		color: Colors.primary,
+		alignSelf: 'center',
+		marginBottom: Sizes.gutter * 2,
 	},
-	text: {
-		marginVertical: 5,
-		color: Colors.textColor,
-		fontSize: 20,
+	inputContainer:{
+		marginBottom: Sizes.gutter,
 	},
-	textContainers: {
-		flex: 5,
-		justifyContent: "flex-start",
-		alignItems: "center",
-		width: "100%",
-	},
-	buttonContainer: {
-		position: "absolute",
-		bottom: 0,
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	inpuContainer: {
-		justifyContent: "center",
-		alignItems: "flex-start",
-	},
-	input: {
-		borderColor: Colors.secondary,
-		borderWidth: 2,
-		borderRadius: 5,
-		width: 250,
-		height: 40,
-		padding: 2,
-		paddingStart: 8,
-		fontSize: 20,
-	},
-	notFoundContainer: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		width: "90%",
-	},
-	notFoundText: {
-		color: Colors.textColor,
-		fontSize: 20,
-		textAlign: "center",
-	},
-	notFoundTextContainer: {
-		justifyContent: "center",
-		alignItems: "center",
-		marginTop: 24,
-	},
-	validateFieldsText: {
-		color: "red",
-		marginVertical: 8,
+	errorText: {
+		marginTop: Sizes.gutter * 0.25,
 	},
 });
 
-export default SignUp;
+export default withInternetVerification(SignUp);
