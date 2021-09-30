@@ -1,8 +1,11 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Sizes from '../utils/sizes';
+import Touchable from "./buttons/Touchable";
+import { View } from "react-native";
+import BackButton from "./buttons/BackButton";
 
 const styles = StyleSheet.create({
 	container: {
@@ -10,15 +13,30 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 		alignItems: "stretch",
 		backgroundColor: "white",
-		paddingHorizontal:  Sizes.gutter,
 	},
+	header:{
+		paddingHorizontal:  Sizes.gutter * 0.5,
+		paddingBottom:  Sizes.gutter * 0.5,
+		height: Sizes.gutter * 2,
+	},
+	content:{
+		flex: 1,
+		justifyContent: "flex-start",
+		alignItems: "stretch",
+		paddingHorizontal:  Sizes.gutter,
+	}
 });
 
-const Container = ({ children}) => {
+const Container = ({ style , children, backButton= false, onBack}) => {
 	return (
-		<SafeAreaView style={styles.container }>
+		<SafeAreaView style={styles.container}>
       <StatusBar />
-			{children}
+			<View style={styles.header}>
+				{backButton && <BackButton onBack={onBack}/>}
+			</View>
+			<View style={[styles.content,style]}>
+				{children}
+			</View>
 		</SafeAreaView>
 	);
 };
