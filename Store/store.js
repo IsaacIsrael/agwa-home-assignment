@@ -3,14 +3,23 @@ import createSagaMiddleware from 'redux-saga';
 import reduxMiddelware from './reduxMiddelware';
 import rootReducer from './rootReducer';
 import rootSaga from './rootSaga';
+import { persistStore } from 'redux-persist'
 
 
+const initializeStore  = () => {
+  const sagaMiddleware = createSagaMiddleware()
+  const middlewareEnhancer = applyMiddleware(sagaMiddleware,reduxMiddelware)
 
-const sagaMiddleware = createSagaMiddleware()
-const middlewareEnhancer = applyMiddleware(sagaMiddleware,reduxMiddelware)
+  let store = createStore(rootReducer, middlewareEnhancer);
+  let persistor = persistStore(store);
 
-const store = createStore(rootReducer, middlewareEnhancer)
+  sagaMiddleware.run(rootSaga);
 
-sagaMiddleware.run(rootSaga);
+  return { store, persistor }
+}
 
-export default store
+const { store, persistor } = initializeStore();
+
+export {store , persistor};
+
+ 
