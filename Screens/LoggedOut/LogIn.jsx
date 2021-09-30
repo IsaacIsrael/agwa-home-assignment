@@ -8,20 +8,20 @@ import { useDispatch } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import Input from '../components/inputs/Input';
-import authService from '../services/auth.services';
-import ErrorText from '../components/texts/ErrorText';
-import Button from "../components/buttons/Button";
+import Input from '../../components/inputs/Input';
+import authService from '../../services/auth.services';
+import ErrorText from '../../components/texts/ErrorText';
+import Button from "../../components/buttons/Button";
 
-import Colors from "../utils/styles";
-import Sizes from '../utils/sizes';
+import Colors from "../../utils/styles";
+import Sizes from '../../utils/sizes';
 
-import { isValidEmail } from "../utils/helper";
-import { log_in } from "../Store/Actions/auth";
-import StickBottomContainer from "../components/StickBottomContainer";
-import Container from '../components/Container';
+import { isValidEmail } from "../../utils/helper";
+import { log_in } from "../../Store/Actions/auth";
+import StickBottomContainer from "../../components/StickBottomContainer";
+import Container from '../../components/Container';
 import { StatusBar } from "expo-status-bar";
-import withInternetVerification from "../hoc/withInternetVerification";
+import withInternetVerification from "../../hoc/withInternetVerification";
 
 const LogIn = ({ navigation }) => {
 	const [email, setEmail] = useState();

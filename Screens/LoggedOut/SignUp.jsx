@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import Colors from "../utils/styles";
-import CustomButton from "../components/customButtons/CustomButton";
+import Colors from "../../utils/styles";
+import CustomButton from "../../components/customButtons/CustomButton";
 import { useDispatch } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
-import { isValidEmail } from "../utils/helper";
-import { sign_up } from "../Store/Actions/auth";
+import { isValidEmail } from "../../utils/helper";
+import { sign_up } from "../../Store/Actions/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, View, TextInput, Text, Keyboard } from "react-native";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 import { StatusBar } from "expo-status-bar";
-import Input from "../components/inputs/Input";
-import Sizes from "../utils/sizes";
-import StickBottomContainer from "../components/StickBottomContainer";
-import ErrorText from "../components/texts/ErrorText";
-import Button from "../components/buttons/Button";
-import authService from "../services/auth.services";
-import withInternetVerification from "../hoc/withInternetVerification";
+import Input from "../../components/inputs/Input";
+import Sizes from "../../utils/sizes";
+import StickBottomContainer from "../../components/StickBottomContainer";
+import ErrorText from "../../components/texts/ErrorText";
+import Button from "../../components/buttons/Button";
+import authService from "../../services/auth.services";
+import withInternetVerification from "../../hoc/withInternetVerification";
 
 const SignUp = ({ navigation }) => {
 	const [email, setEmail] = useState("");
