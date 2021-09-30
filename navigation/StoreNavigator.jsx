@@ -1,5 +1,4 @@
 import React from "react";
-import Farms from "../Screens/Farms";
 import Farm from "../Screens/Farm";
 import Store from "../Screens/Store";
 import Cart from "../Screens/Cart";
@@ -15,11 +14,6 @@ const StoreNavigator = () => {
 			<Screen
 				name='root'
 				component={BottomTabs}
-				options={{  headerShown: false }}
-			/>
-			<Screen
-				name='farms'
-				component={Farms}
 				options={{  headerShown: false }}
 			/>
 			<Screen

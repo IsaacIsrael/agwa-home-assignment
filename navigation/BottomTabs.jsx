@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import Cart from '../Screens/Cart';
-import Farms from "../Screens/Farms";
+import Farms from "../Screens/LoggedIn/Farms";
 import Colors from '../utils/styles';
 import SignUp from "../Screens/LoggedOut/SignUp";
 

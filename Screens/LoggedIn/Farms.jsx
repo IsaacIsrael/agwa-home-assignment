@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Colors from "../utils/styles";
-import CustomButton from "../components/customButtons/CustomButton";
-import CustomHeaderButton from "../components/customButtons/CustomHeaderButtons";
-import { log_out } from "../Store/Actions/auth";
-import { add_plants } from "../Store/Actions/plants";
+import Colors from "../../utils/styles";
+import CustomButton from "../../components/customButtons/CustomButton";
+import CustomHeaderButton from "../../components/customButtons/CustomHeaderButtons";
+import { log_out } from "../../Store/Actions/auth";
+import { add_plants } from "../../Store/Actions/plants";
 import { useDispatch, useSelector } from "react-redux";
-import { add_categories } from "../Store/Actions/categories";
+import { add_categories } from "../../Store/Actions/categories";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { StyleSheet, View, ActivityIndicator, Text } from "react-native";
 import {
 	REACT_APP_AGWA_CATEGORIES,
 	REACT_APP_AGWA_PLANTS,
-} from "../utils/database";
-import FarmCard from "../components/cards/FarmCard";
-import Container from '../components/Container';
+} from "../../utils/database";
+import FarmCard from "../../components/cards/FarmCard";
+import Container from '../../components/Container';
 import { FlatList } from "react-native-gesture-handler";
-import Sizes from "../utils/sizes";
+import Sizes from "../../utils/sizes";
 
 
 const farms = [
