@@ -11,10 +11,7 @@ import Button from "../../components/buttons/Button";
 
 import Colors from "../../utils/styles";
 import Sizes from "../../utils/sizes";
-import { Creators as userCreator } from '../../Store/duckers/user'	
-
-import authService from "../../services/auth.services";
-import { isValidEmail } from "../../utils/helper";
+import { Creators as authCreator } from '../../Store/duckers/auth'	
 
 import withInternetVerification from "../../hoc/withInternetVerification";
 
@@ -24,17 +21,17 @@ const SignUp = ({ navigation }) => {
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const dispatch = useDispatch();
 
-	const isFetching = useSelector(({user}) => user.fetching);
-	const errorMessage = useSelector(({user}) => user.error);
+	const isFetching = useSelector(({auth}) => auth.fetching);
+	const errorMessage = useSelector(({auth}) => auth.error);
 
 	const onBackPress = () =>{
-		dispatch(userCreator.reset());
+		dispatch(authCreator.reset());
 	}
 		
 	const signUpHandler = async () => {
 		Keyboard.dismiss();
 		
-		dispatch(userCreator.signUp(email,password,confirmPassword));
+		dispatch(authCreator.signUp(email,password,confirmPassword));
 	};
 
 

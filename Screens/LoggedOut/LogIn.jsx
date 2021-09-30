@@ -11,7 +11,7 @@ import Button from "../../components/buttons/Button";
 
 import Colors from "../../utils/styles";
 import Sizes from '../../utils/sizes';
-import { Creators as userCreator } from '../../Store/duckers/user'	
+import { Creators as authCreator } from '../../Store/duckers/auth'	
 
 import withInternetVerification from "../../hoc/withInternetVerification";
 
@@ -19,8 +19,8 @@ const LogIn = ({ navigation }) => {
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
 
-	const isFetching = useSelector(({user}) => user.fetching);
-	const errorMessage = useSelector(({user}) => user.error);
+	const isFetching = useSelector(({auth}) => auth.fetching);
+	const errorMessage = useSelector(({auth}) => auth.error);
 
 	const dispatch = useDispatch();
 
@@ -28,11 +28,11 @@ const LogIn = ({ navigation }) => {
 	const onLogInPress = async () => {
 		Keyboard.dismiss();
 			
-		dispatch( userCreator.logIn(email, password ));
+		dispatch( authCreator.logIn(email, password ));
 	};
 
 	const onSignInPress = () => {
-		dispatch( userCreator.reset());
+		dispatch( authCreator.reset());
 		navigation.navigate("signUp");
 	};
 

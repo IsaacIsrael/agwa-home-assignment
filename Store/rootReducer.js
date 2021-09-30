@@ -1,19 +1,21 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import cartReducer from './Reducers/cart';
 import itemIdReducer from './Reducers/itemId'
 import plantsReducer from './Reducers/plants';
 import reduxMiddelware from './reduxMiddelware'
 import categoriesReducer from './Reducers/categories';
-import authReducer from './Reducers/auth'
 import useReducer  from './duckers/user'
-import { combineReducers } from 'redux';
+import authReducer  from './duckers/auth'
+
 
 
 const persistConfig = {
   key: 'LIFTED_REDUX_STORE',
   storage: AsyncStorage,
+  whitelist: ['user'],
 }
 
 

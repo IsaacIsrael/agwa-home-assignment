@@ -1,7 +1,8 @@
 import { call , put } from 'redux-saga/effects'
 import authService from '../../../services/auth.services';
 import { isValidEmail } from '../../../utils/isValidEmail';
-import { Creators as userCreator } from './index'	
+import { Creators as authCreator } from './index'	
+import { Creators as userCreator } from '../user'	
 
 
 // TODO:  Apply DRY a little more
@@ -22,10 +23,11 @@ export function* logIn ({ email, password }){
       throw Error('Please Sign Up'); 
 		} 
 
-    yield put(userCreator.logInSuccess({ userId,  firebaseUserId })); 
+    put(authCreator.reset()); 
+    yield put(userCreator.setUser({ userId,  firebaseUserId })); 
   }
   catch(error){
-    yield put(userCreator.logInError(error.message)); 
+    yield put(authCreator.logInError(error.message)); 
   }
 }
 
@@ -51,9 +53,10 @@ export function* signUp ({ email, password,confirmPassword }){
       throw Error('Email already exists'); 
 		} 
 
-    yield put(userCreator.signUpSuccess({ userId,  firebaseUserId })); 
+    put(authCreator.reset()); 
+    yield put(userCreator.setUser({ userId,  firebaseUserId })); 
   }
   catch(error){
-    yield put(userCreator.signUpError(error.message)); 
+    yield put(authCreator.signUpError(error.message)); 
   }
 }

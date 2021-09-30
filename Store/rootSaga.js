@@ -1,10 +1,10 @@
 import { all,  takeLatest }  from 'redux-saga/effects' ;
-import { Types as userTypes }  from './duckers/user';
-import { logIn, signUp }  from './duckers/user/saga';    
+import { Types as authTypes }  from './duckers/auth';
+import { logIn, signUp }  from './duckers/auth/saga';    
 
 export default function* rootSaga(){
   return yield all([
-    takeLatest(userTypes.LOG_IN, logIn),
-    takeLatest(userTypes.SIGN_UP, signUp),
+    takeLatest(authTypes.LOG_IN, logIn),
+    takeLatest(authTypes.SIGN_UP, signUp),
   ])
 }
