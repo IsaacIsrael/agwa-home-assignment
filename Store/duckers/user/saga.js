@@ -16,7 +16,7 @@ export function* logIn ({ email, password }){
     }
 
     const data = yield call(authService.login, { email, password});
-		const { error , email: userId , localId :  userToken} =  data ;
+		const { error , email: userId , localId :  firebaseUserId} =  data ;
 
     if (error) {
       throw Error('Please Sign Up'); 
