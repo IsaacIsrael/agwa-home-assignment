@@ -1,64 +1,48 @@
-import React, { useEffect, useState } from "react";
-import Colors from "../../utils/styles";
-import CustomButton from "../../components/customButtons/CustomButton";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { StyleSheet, Keyboard, ActivityIndicator } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
-import { isValidEmail } from "../../utils/helper";
-import { sign_up } from "../../Store/Actions/auth";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, View, TextInput, Text, Keyboard } from "react-native";
+
 import Container from "../../components/Container";
-import { StatusBar } from "expo-status-bar";
 import Input from "../../components/inputs/Input";
-import Sizes from "../../utils/sizes";
-import StickBottomContainer from "../../components/StickBottomContainer";
 import ErrorText from "../../components/texts/ErrorText";
+import StickBottomContainer from "../../components/StickBottomContainer";
 import Button from "../../components/buttons/Button";
+
+import Colors from "../../utils/styles";
+import Sizes from "../../utils/sizes";
+import { Creators as userCreator } from '../../Store/duckers/user'	
+
 import authService from "../../services/auth.services";
+import { isValidEmail } from "../../utils/helper";
+
 import withInternetVerification from "../../hoc/withInternetVerification";
 
 const SignUp = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-	const [errorMessage, setErrorMessage] = useState();
 	const dispatch = useDispatch();
 
+	const isFetching = useSelector(({user}) => user.fetching);
+	const errorMessage = useSelector(({user}) => user.error);
+
+	const onBackPress = () =>{
+		dispatch(userCreator.reset());
+	}
+		
 	const signUpHandler = async () => {
 		Keyboard.dismiss();
 		
-		// TODO:  Move this logic for action
-		if (!password || !confirmPassword || !email) {
-			setErrorMessage("Please fill all fields");
-			return;
-		}  
-		if (password != confirmPassword) {
-			setErrorMessage("Passwords do not match");
-			return;
-		} 
-		if (password && password.length < 6) {
-			setErrorMessage("Password must be at least 6 characters");
-			return;
-		} 
-		if (!isValidEmail(email)) {
-			setErrorMessage("Please enter a valid email");
-			return;
-		} 
-
-		const data = await authService.signUp({ email, password});
-		const { error , email: userId , localId :  userToken} =  data ;
-		
-		if (error && error.message === "EMAIL_EXISTS") {
-			setErrorMessage("Email already exists");
-			return;
-		} 
-		
-		dispatch( sign_up({ userId, userToken }));
+		dispatch(userCreator.signUp(email,password,confirmPassword));
 	};
 
 
 	return (
-		<Container>
+		<Container
+		 backButton
+		 onBack={onBackPress}
+		>
 			<Ionicons name='leaf' size={70} style={styles.icon} />
 			<Input 
 				label= 'Email'
@@ -79,7 +63,15 @@ const SignUp = ({ navigation }) => {
 				onValueChange={setConfirmPassword}
 				secureTextEntry={true} 
 			/>
+			
 			{!!errorMessage && ( <ErrorText style={styles.errorText} >{errorMessage}</ErrorText> )}
+
+			<ActivityIndicator
+				color={Colors.primary} 
+				size="large" 
+				animating={isFetching}
+				style={styles.loading}
+				/>
 			
 			<StickBottomContainer>
 				<Button
@@ -104,6 +96,9 @@ const styles = StyleSheet.create({
 	errorText: {
 		marginTop: Sizes.gutter * 0.25,
 	},
+	loading:{
+		marginTop: 20,
+	}
 });
 
 export default withInternetVerification(SignUp);
