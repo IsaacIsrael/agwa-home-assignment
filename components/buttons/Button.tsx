@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../utils/styles";
 import Touchable from './Touchable';
 import Sizes from '../../utils/sizes';
@@ -50,7 +49,6 @@ const textStyle = new Map([
 ]);
 
 
-// TODO:  You should use destructuring
 const Button = ({ style, Icon, onClick, title, type }) => {
   return (
     <Touchable
