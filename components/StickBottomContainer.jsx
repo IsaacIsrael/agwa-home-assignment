@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet,Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Sizes from '../utils/sizes';
 
 const styles = StyleSheet.create({
@@ -16,11 +15,9 @@ const styles = StyleSheet.create({
 });
 
 const StickBottomContainer = ({ children}) => {
-	const { bottom } = useSafeAreaInsets();
 	return (
 		<View style={[
 			styles.container,
-			{ paddingBottom : Sizes.gutter + bottom  }
 		]}>
 			{children}
 		</View>
