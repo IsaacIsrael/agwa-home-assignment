@@ -11,14 +11,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   text: {
-    fontSize: Sizes.buttonFont,
+    fontSize: Sizes.smallFont,
   },
   contentContainer: {
     flexDirection: "row",
   },
 });
 
-const BackButton = ({ style, onBack }) => {
+const BackButton = ({ buttonStyle, onBack }) => {
   const navigation = useNavigation();
 
   const onButtonPress = () => {
@@ -31,12 +31,12 @@ const BackButton = ({ style, onBack }) => {
 
   return (
     <Touchable
-      style={styles.button}
+      style={[styles.button, buttonStyle]}
       onPress={onButtonPress}
       activeOpacity={0.8}
     >
       <View style={styles.contentContainer}>
-        <Ionicons name='chevron-back-outline' size={20} />
+        <Ionicons name='chevron-back-outline' size={Sizes.smallFont} />
         <Text style={styles.text}> Back </Text>
       </View>
     </Touchable>
