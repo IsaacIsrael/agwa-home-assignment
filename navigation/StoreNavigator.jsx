@@ -4,39 +4,45 @@ import Farm from "../Screens/Farm";
 import Store from "../Screens/Store";
 import Cart from "../Screens/Cart";
 import VeggieDesc from "../Screens/VeggieDesc";
+import BottomTabs  from './BottomTabs'
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const StoreScreenStack = createNativeStackNavigator();
+const {Navigator, Screen} = createNativeStackNavigator();
 
 const StoreNavigator = () => {
 	return (
-		<StoreScreenStack.Navigator>
-			<StoreScreenStack.Screen
+		<Navigator>
+			<Screen
+				name='root'
+				component={BottomTabs}
+				options={{  headerShown: false }}
+			/>
+			<Screen
 				name='farms'
 				component={Farms}
-				options={{ title: "My Farms" }}
+				options={{  headerShown: false }}
 			/>
-			<StoreScreenStack.Screen
+			<Screen
 				name='farm'
 				component={Farm}
 				options={{ title: "Farm" }}
 			/>
-			<StoreScreenStack.Screen
+			<Screen
 				name='store'
 				component={Store}
 				options={{ title: "Store" }}
 			/>
-			<StoreScreenStack.Screen
+			<Screen
 				name='cart'
 				component={Cart}
 				options={{ title: "Cart" }}
 			/>
-			<StoreScreenStack.Screen
+			<Screen
 				name='veggieDsec'
 				component={VeggieDesc}
 				options={{ title: "Plant" }}
 			/>
-		</StoreScreenStack.Navigator>
+		</Navigator>
 	);
 };
 
