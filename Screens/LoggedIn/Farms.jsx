@@ -1,22 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, FlatList, View } from "react-native";
 import Container from '../../components/Container';
 import FarmCard from "../../components/cards/FarmCard";
 import Sizes from "../../utils/sizes";
+import { useDispatch, useSelector } from "react-redux";
+import { Creators as vegetableCreator } from '../../Store/duckers/vegetable'	
 
 
-const farms = [
-	{
-		id: 'farmA',		
-		name: 'Farm A'
-	},
-	{
-		id: 'farmB',
-		name: 'Farm B'
-	},
-]
 
 const Farms = () => {
+	const farms = useSelector( (state)=> state.farms.devices)
+	const dispatch = useDispatch();
+
+	useEffect(()=>{
+		dispatch(vegetableCreator.setVegetables());
+	})
 
 	// useEffect(() => {
 	// 	//TODO: I think the code is not so clear. Appear that we mix the 
@@ -35,44 +33,6 @@ const Farms = () => {
 	// 	};
 	// 	getCategories();
 	// }, []);
-
-	// useEffect(() => {
-	// 	//Gets all the plant info of the categories
-	// 	const getPlantData = async () => {
-	// 		try {
-	// 		//TODO: I think the code is not so clear. Appear that we mix the 
-	// 		// responsibility here. Maybe is a good idea to desegregate the 
-	// 		// responsibility. I suggest creating a new object ( Class) 
-	// 		// responsible to make the API calls (as a service pattern )
-	// 			const allPlantData = await axios.get(`${REACT_APP_AGWA_PLANTS}`);
-	// 			let dataToStore = {};
-
-	// 			//TODO: We should revisit the API endpoint. This look to much and could be
-	// 			// avoid at the API side.  Three loop one inside is not a good practices . 
-	// 			for (let i = 0; i < categories.length; i++) {
-	// 				let plantsArray = categories[i].plants;
-	// 				for (let j = 0; j < plantsArray.length; j++) {
-	// 					const foundPlant = allPlantData.data.plants.find(
-	// 						(item) => item.id === plantsArray[j].id
-	// 					);
-	// 					if (foundPlant) {
-	// 						dataToStore[plantsArray[j].id] = foundPlant;
-	// 					}
-	// 				}
-	// 			}
-	// 			dispatch(add_plants(dataToStore));
-	// 			setIsLoading(false);
-	// 		} catch (err) {
-	// 			console.error(err);
-	// 		}
-	// 	};
-
-	// 	// TODO: Validate before
-
-	// 	if (categories) {
-	// 		getPlantData();
-	// 	}
-	// }, [categories]);
 
 	return (
 		<Container title="My Farms">

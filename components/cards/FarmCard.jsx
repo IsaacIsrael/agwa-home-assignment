@@ -1,10 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/core";
+import { useDispatch } from "react-redux";
 import { FontAwesome5 } from '@expo/vector-icons';
-import Colors from "../../utils/styles";
+
 import Touchable from '../buttons/Touchable';
 import Sizes from '../../utils/sizes';
-import { useNavigation } from "@react-navigation/core";
+
+import Colors from "../../utils/styles";
+import { Creators as farmCreator } from '../../Store/duckers/farm'	
 
 const styles = StyleSheet.create({
   button: {
@@ -30,8 +34,10 @@ const styles = StyleSheet.create({
 
 const FarmCard = ({ farm }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   
   const onCardPress = () =>{
+    dispatch(farmCreator.setSelectedFarm(farm));
     navigation.navigate("farm", { farm: farm.id });
   }
   return (

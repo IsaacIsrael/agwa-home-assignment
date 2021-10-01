@@ -11,195 +11,39 @@ import { resotre_past_order } from "../Store/Actions/cart";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { StyleSheet, View, Text, Platform, FlatList } from "react-native";
 import { flatListItemParser, saveLocalStorageData } from "../utils/helper";
+import Container from '../components/Container';
+import VegetableCard from '../components/cards/VegetableCard';
+import Sizes from "../utils/sizes";
 
-const Farm = (props) => {
-	const { route, navigation } = props;
-	const [farmType] = useState(route.params.farm);
-	const cartPastOrders = useSelector(
-		(state) => state.cart[`${route.params.farm}`].pastOrders
-	);
-	const user = useSelector((state) => state.auth);
-	const isOnline = useRef(false);
-	const dispatch = useDispatch();
-
-	const farmPastItems = cartPastOrders
-		? flatListItemParser(cartPastOrders)
-		: [];
-
-	const goToCart = () => {
-		navigation.navigate("cart", {
-			cart: `${route.params.farm}`,
-		});
-	};
-
-	const goToStore = () => {
-		navigation.navigate("store", {
-			cart: `${route.params.farm}`,
-		});
-	};
-
-	const goToVeggieDesc = (veggie) => {
-		navigation.navigate("veggieDsec", {
-			id: veggie.id,
-			cart: route.params.farm,
-		});
-	};
-
-
-		//TODO: I think the code is not so clear. Appear that we mix the 
-		// responsibility here. Maybe is a good idea to desegregate the 
-		// responsibility. I suggest creating a new object ( Class) 
-		// responsible to make the API calls (as a service pattern )
-	const loadPastOrders = async (dispatch, getState) => {
-		const farm =
-			farmType === "farmA" ? getState().cart.farmA : getState().cart.farmB;
-		try {
-			const res = await loadExternalStorageData(user.firebaseUserId, farmType);
-			if (res.data) {
-				dispatch(resotre_past_order({ cart: farmType, cartItems: res.data }));
-				saveLocalStorageData(`${farmType}pastStoreData`, farm);
-			}
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
-		//TODO: I think the code is not so clear. Appear that we mix the 
-		// responsibility here. Maybe is a good idea to desegregate the 
-		// responsibility. I suggest creating a new object ( Class) 
-		// responsible to make the API calls (as a service pattern )
-
-	const getPastOrdersData = (dispatch, getState) => {
-		// Display past orders from DB if online, else from local storage
-		if (isOnline) {
-			loadPastOrders(dispatch, getState);
-		} else {
-			AsyncStorage.getItem(`${farmType}pastStoreData`)
-				.then((pastStoreData) => {
-					const parsedData = JSON.parse(pastStoreData);
-					if (parsedData) {
-						dispatch(
-							resotre_past_order({ cart: farmType, cartItems: parsedData })
-						);
-					}
-				})
-				.catch((err) => {
-					console.error(err);
-				});
-		}
-	};
-
-
-	//TODO:  Break the useEffect into per functionality 
-	useEffect(() => {
-		{/* TODO: Try to move this logic to  AppNavigator*/}
-		const unsubscribe = NetInfo.addEventListener((state) => {
-			const online = !!state.isConnected;
-			isOnline.current = online;
-		});
-
-		{/* TODO: Try to move this logic to  Store Navigator with a component.(DRY)*/}
-		navigation.setOptions({
-			title: `Farm ${route.params.farm.slice(-1)}`,
-			headerRight: () => (
-				<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-					<Item
-						title='Cart'
-						iconName={Platform.OS === "android" ? "md-cart" : "ios-cart"}
-						onPress={goToCart}
-					/>
-					<Item
-						title='Store'
-						iconName={
-							Platform.OS === "android"
-								? "md-add-circle-sharp"
-								: "ios-add-sharp"
-						}
-						onPress={goToStore}
-					/>
-				</HeaderButtons>
-			),
-		});
-
-		dispatch(getPastOrdersData);
-		return () => unsubscribe();
-	}, []);
-
+const Farm = ( { route, navigation }) => {
+	const { name,  orders} = useSelector((state)=> state.farms.selectedFarm);
+	const isFetching = useSelector((state)=> state.farms.fetching);
+	
 	return (
-		<View style={styles.container}>
-			{farmPastItems.length > 0 ? (
-				<>
+		<Container
+			backButton
+			title={name}
+		>
+			<FlatList
+				showsVerticalScrollIndicator={false}
+				data={orders}
+				refreshing={isFetching}
+				onRefresh={ () => undefined}
+				ListHeaderComponent={() =>(
 					<View style={styles.textContainer}>
-						<Text style={styles.text}>Plants in your farm:</Text>
 					</View>
-					<View style={styles.flatListContainer}>
-						<FlatList
-							showsVerticalScrollIndicator={false}
-							data={farmPastItems}
-							keyExtractor={(item) => item.id}
-							renderItem={(veggieContainer) => (
-								<VeggieCard
-									veggie={veggieContainer.item}
-									isDisplayAmount={true}
-									isAmountEditable={false}
-									pressVeggieHandler={goToVeggieDesc}
-								/>
-							)}
-						/>
-					</View>
-				</>
-			) : (
-				<View style={styles.notFoundContainer}>
-					<Ionicons
-						name='leaf'
-						size={80}
-						style={styles.image}
-						color={Colors.primary}
-					/>
-					<Text style={styles.notFoundText}>
-						Didn't find any plants in your farm :(
-					</Text>
-				</View>
-			)}
-		</View>
+				)}
+				ItemSeparatorComponent={()=> <View style={styles.divider}/>}
+				keyExtractor={(vegetable) => `vegetable-${vegetable.name}`}
+				renderItem={({ item }) => ( <VegetableCard  vegetable={item} />)}
+			/>
+		</Container>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "flex-start",
-		alignItems: "center",
-		backgroundColor: "white",
-	},
-	textContainer: {
-		height: "8%",
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: Colors.secondary,
-		width: "100%",
-	},
-	text: {
-		marginVertical: 10,
-		fontSize: 23,
-		color: "white",
-	},
-	flatListContainer: {
-		width: "80%",
-		height: "92%",
-	},
-	notFoundContainer: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		width: "90%",
-	},
-	notFoundText: {
-		color: Colors.textColor,
-		fontSize: 20,
-		marginTop: 24,
-		textAlign: "center",
+	divider: {
+		marginTop: Sizes.gutter
 	},
 });
 

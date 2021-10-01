@@ -34,8 +34,3 @@ export const saveExternalStorageData = (farmData, farmType, userId) => {
     })
 
 }
-
-export const loadExternalStorageData = async (userId, farmType) => {
-    const url = `https://plantostore-33e3d-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/${farmType}.json`
-    return axios.get(url)
-}

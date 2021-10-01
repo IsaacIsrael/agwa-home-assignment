@@ -3,7 +3,7 @@ import { createActions, createReducer } from 'reduxsauce'
 // Create action Types and Creators
 
 export const { Types, Creators} = createActions({
-  setUser: ['userId', 'firebaseUserId'],
+  setUser: ['user'],
   reset: null,
 });
 
@@ -14,10 +14,7 @@ const INITIAL_STATE = {
   firebaseUserId: "",
 }
 
-const setUser = (state = INITIAL_STATE, { userId, firebaseUserId }) => ({
-  userId,
-  firebaseUserId,
-})
+const setUser = (state = INITIAL_STATE, { user }) =>({...user })
 
 const reset = (state = INITIAL_STATE, action) => INITIAL_STATE
 
@@ -26,4 +23,4 @@ const reset = (state = INITIAL_STATE, action) => INITIAL_STATE
 export default createReducer(INITIAL_STATE, {
   [Types.SET_USER] : setUser,
   [Types.RESET] : reset,
-});;
+});

@@ -3,9 +3,6 @@ import axios from "axios";
 
 const KEY = '?key=AIzaSyDLTrlLmj_dFKOPI74doQ2rzuWimkIwLcA';
 const HOST = 'https://identitytoolkit.googleapis.com/v1/accounts:';
-// const URL = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDLTrlLmj_dFKOPI74doQ2rzuWimkIwLcA"; 
-// const URL = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDLTrlLmj_dFKOPI74doQ2rzuWimkIwLcA",
-
 
 class AuthService {
   

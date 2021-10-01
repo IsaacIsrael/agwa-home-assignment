@@ -19,7 +19,7 @@ const StoreNavigator = () => {
 			<Screen
 				name='farm'
 				component={Farm}
-				options={{ title: "Farm" }}
+				options={{  headerShown: false }}
 			/>
 			<Screen
 				name='store'
@@ -32,7 +32,7 @@ const StoreNavigator = () => {
 				options={{ title: "Cart" }}
 			/>
 			<Screen
-				name='veggieDsec'
+				name='vegetable'
 				component={VeggieDesc}
 				options={{ title: "Plant" }}
 			/>
