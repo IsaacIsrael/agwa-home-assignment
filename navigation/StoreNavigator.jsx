@@ -2,7 +2,7 @@ import React from "react";
 import Farm from "../Screens/LoggedIn/Farm";
 import Store from "../Screens/Store";
 import Cart from "../Screens/Cart";
-import VeggieDesc from "../Screens/VeggieDesc";
+import VeggieDesc from "../Screens/LoggedIn/Vegetable";
 import BottomTabs  from './BottomTabs'
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 

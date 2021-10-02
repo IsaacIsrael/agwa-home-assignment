@@ -1,17 +1,17 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
-import { saveLocalStorageData, saveExternalStorageData } from "../utils/helper";
+import { saveLocalStorageData, saveExternalStorageData } from "../../utils/helper";
 
-import Container from "../components/Container";
-import Information from "../components/Information";
+import Container from "../../components/Container";
+import Information from "../../components/Information";
 
-import withInternetVerification from "../hoc/withInternetVerification";
-import { windowWidth } from "../utils/system";
-import Sizes from '../utils/sizes';
-import Colors from "../utils/styles";
+import withInternetVerification from "../../hoc/withInternetVerification";
+import { windowWidth } from "../../utils/system";
+import Sizes from '../../utils/sizes';
+import Colors from "../../utils/styles";
 
 
-const  defaultImage = require ('../assets/default-image.jpeg');
+const  defaultImage = require ('../../assets/default-image.jpeg');
 const imageUrl = "https://dev-agwa-public-static-assets-web.s3-us-west-2.amazonaws.com/images/vegetables/";
 
 const styles = StyleSheet.create({
