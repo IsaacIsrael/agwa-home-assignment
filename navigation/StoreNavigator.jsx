@@ -1,5 +1,5 @@
 import React from "react";
-import Farm from "../Screens/Farm";
+import Farm from "../Screens/LoggedIn/Farm";
 import Store from "../Screens/Store";
 import Cart from "../Screens/Cart";
 import VeggieDesc from "../Screens/VeggieDesc";
