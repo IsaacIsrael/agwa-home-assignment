@@ -34,7 +34,7 @@ const StoreNavigator = () => {
 			<Screen
 				name='vegetable'
 				component={VeggieDesc}
-				options={{ title: "Plant" }}
+				options={{  headerShown: false }}
 			/>
 		</Navigator>
 	);
