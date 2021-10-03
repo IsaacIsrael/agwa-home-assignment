@@ -1,6 +1,6 @@
 import React from "react";
 import Farm from "../Screens/LoggedIn/Farm";
-import Store from "../Screens/Store";
+import Store from "../Screens/LoggedIn/Store";
 import Cart from "../Screens/Cart";
 import VeggieDesc from "../Screens/LoggedIn/Vegetable";
 import BottomTabs  from './BottomTabs'
@@ -24,7 +24,7 @@ const StoreNavigator = () => {
 			<Screen
 				name='store'
 				component={Store}
-				options={{ title: "Store" }}
+				options={{ headerShown: false }}
 			/>
 			<Screen
 				name='cart'

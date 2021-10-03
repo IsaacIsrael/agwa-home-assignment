@@ -14,10 +14,10 @@ const styles = StyleSheet.create({
 	},
 });
 
-const StickBottomContainer = ({ children}) => {
+const StickBottomContainer = ({ styles, children}) => {
 	return (
 		<View style={[
-			styles.container,
+			styles.container, styles
 		]}>
 			{children}
 		</View>

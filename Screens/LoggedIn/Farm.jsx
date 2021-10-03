@@ -1,19 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import Colors from "../../utils/styles";
-import VeggieCard from "../../components/VeggieCard";
-import NetInfo from "@react-native-community/netinfo";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import CustomHeaderButton from "../../components/customButtons/CustomHeaderButtons";
-import { Ionicons } from "@expo/vector-icons";
-import { useSelector, useDispatch } from "react-redux";
-import { loadExternalStorageData } from "../../utils/helper";
-import { resotre_past_order } from "../../Store/Actions/cart";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { StyleSheet, View, Text, Platform, FlatList } from "react-native";
-import { flatListItemParser, saveLocalStorageData } from "../../utils/helper";
+import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+
 import Container from '../../components/Container';
 import VegetableCard from '../../components/cards/VegetableCard';
+import StoreCard from "../../components/cards/StoreCard";
+
+import Colors from "../../utils/styles";
 import Sizes from "../../utils/sizes";
+
 
 const Farm = ( { route, navigation }) => {
 	const { name,  orders} = useSelector((state)=> state.farms.selectedFarm);
@@ -29,9 +25,11 @@ const Farm = ( { route, navigation }) => {
 				data={orders}
 				refreshing={isFetching}
 				onRefresh={ () => undefined}
-				ListHeaderComponent={() =>(
-					<View style={styles.textContainer}>
-					</View>
+				ListFooterComponent={() =>(
+					<>
+						<View style={styles.divider}/>
+						<StoreCard />
+					</>
 				)}
 				ItemSeparatorComponent={()=> <View style={styles.divider}/>}
 				keyExtractor={(vegetable) => `vegetable-${vegetable.name}`}

@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
-import { saveLocalStorageData, saveExternalStorageData } from "../../utils/helper";
 
 import Container from "../../components/Container";
 import Information from "../../components/Information";
@@ -9,6 +8,8 @@ import withInternetVerification from "../../hoc/withInternetVerification";
 import { windowWidth } from "../../utils/system";
 import Sizes from '../../utils/sizes';
 import Colors from "../../utils/styles";
+import StickBottomContainer from "../../components/StickBottomContainer";
+import Button from "../../components/buttons/Button";
 
 
 const  defaultImage = require ('../../assets/default-image.jpeg');
@@ -65,12 +66,15 @@ const styles = StyleSheet.create({
 	tableContentTitle: {
 		fontWeight: "bold",
 	},
+	button:{
+		marginTop: Sizes.gutter,
+	},
 });
 
 
 const VeggieDesc = ({  
 	route: { 
-		params : { vegetable } 
+		params : { vegetable, showStoreButton } 
 	} 
 } ) => (
 	<Container
@@ -122,6 +126,14 @@ const VeggieDesc = ({
 				})}
 			</View>
 		</ScrollView>
+		{showStoreButton && (
+			<StickBottomContainer styles={styles.button}>
+				<Button
+					title='Add to Cart'
+					onClick={()=> undefined}
+				/>
+			</StickBottomContainer>
+		)}
 	</Container>
 );
 

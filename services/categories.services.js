@@ -1,16 +1,15 @@
 import axios from "axios";
 
-const HOST = `https://plantostore-33e3d-default-rtdb.europe-west1.firebasedatabase.app/users/`;
+const URL = "https://dev-agwa-public-static-assets-web.s3-us-west-2.amazonaws.com/data/catalogs/agwafarm.json"
 
 class CategoriesService {
   
   fetchAll(){
-    const url = `${HOST}${userId}/${farmId}.json`;
-    return axios.get(url)
+    return axios.get(URL)
     .then(response => response.data)
     .catch(error => error.response.data);
   }
 }
 
-const CategoriesService = new CategoriesService();
-export default CategoriesService
+const categoriesService = new CategoriesService();
+export default categoriesService

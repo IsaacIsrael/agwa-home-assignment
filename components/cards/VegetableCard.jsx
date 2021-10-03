@@ -1,7 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { useDispatch } from "react-redux";
 
 import Touchable from '../buttons/Touchable';
 import Sizes from '../../utils/sizes';
@@ -42,12 +41,11 @@ const styles = StyleSheet.create({
 });
 
 
-const VegetableCard = ({ vegetable }) => {
+const VegetableCard = ({ vegetable, showStoreButton = false }) => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   
   const onCardPress = () =>{
-    navigation.navigate("vegetable", { vegetable });
+    navigation.navigate("vegetable", { vegetable, showStoreButton });
   }
 
   return (

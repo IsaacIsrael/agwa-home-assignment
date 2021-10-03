@@ -14,8 +14,7 @@ import vegetableReducer  from './duckers/vegetable'
 const persistConfig = {
   key: 'LIFTED_REDUX_STORE',
   storage: AsyncStorage,
-  // whitelist: ['user', 'farm'],
-  whitelist: ['user'],
+  whitelist: ['user', 'farm'],
 }
 
 
