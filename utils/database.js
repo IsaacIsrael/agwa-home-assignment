@@ -1,2 +1,0 @@
-export const REACT_APP_AGWA_CATEGORIES = "https://dev-agwa-public-static-assets-web.s3-us-west-2.amazonaws.com/data/catalogs/agwafarm.json"
-export const REACT_APP_AGWA_PLANTS = "https://dev-agwa-public-static-assets-web.s3-us-west-2.amazonaws.com/data/catalogs/plants.json"

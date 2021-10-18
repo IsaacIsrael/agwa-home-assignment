@@ -1,21 +1,25 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import cartReducer from './Reducers/cart';
-import itemIdReducer from './Reducers/itemId'
-import plantsReducer from './Reducers/plants';
-import reduxMiddelware from './reduxMiddelware'
-import categoriesReducer from './Reducers/categories';
-import authReducer from './Reducers/auth'
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import reduxMiddelware from './reduxMiddelware';
+import rootReducer from './rootReducer';
+import rootSaga from './rootSaga';
+import { persistStore } from 'redux-persist'
 
 
-const rootReducer = combineReducers({
-    categories: categoriesReducer,
-    cart: cartReducer,
-    itemId: itemIdReducer,
-    plants: plantsReducer,
-    auth: authReducer
-})
+const initializeStore  = () => {
+  const sagaMiddleware = createSagaMiddleware()
+  const middlewareEnhancer = applyMiddleware(sagaMiddleware,reduxMiddelware)
 
-const middlewareEnhancer = applyMiddleware(reduxMiddelware)
-const store = createStore(rootReducer, middlewareEnhancer)
+  let store = createStore(rootReducer, middlewareEnhancer);
+  let persistor = persistStore(store);
 
-export default store
+  sagaMiddleware.run(rootSaga);
+
+  return { store, persistor }
+}
+
+const { store, persistor } = initializeStore();
+
+export {store , persistor};
+
+ 

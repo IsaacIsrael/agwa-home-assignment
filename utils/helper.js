@@ -17,16 +17,6 @@ export const flatListItemParser = (dataStructure) => {
 }
 
 
-//TODO: I think the code is not so clear. Appear that we mix the 
-// responsibility to make the call. I think we should create one Object and 
-// separate them into responsibility.  Like Email with all email validation there ,
-//  other as DataStorage with all features regarding it 
-			
-export const isValidEmail = (email) => {
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-    return reg.test(email);
-};
-
 export const saveLocalStorageData = (localStorageKey, farm) => {
     try {
         AsyncStorage.setItem(localStorageKey, JSON.stringify({ ...farm }));
@@ -43,9 +33,4 @@ export const saveExternalStorageData = (farmData, farmType, userId) => {
         console.error(err)
     })
 
-}
-
-export const loadExternalStorageData = async (userId, farmType) => {
-    const url = `https://plantostore-33e3d-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}/${farmType}.json`
-    return axios.get(url)
 }
